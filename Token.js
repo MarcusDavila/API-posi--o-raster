@@ -4,7 +4,7 @@ const { getDbClient } = require('./db');
 async function getOrRefreshToken(client) {
     console.log("Verificando validade do token...");
 
-    // 1 Verificar se token atual é válido
+   
     const existingTokenRes = await client.query('SELECT * FROM public.pub_token_raster LIMIT 1');
     if (existingTokenRes.rowCount > 0) {
         const row = existingTokenRes.rows[0];
@@ -22,7 +22,7 @@ async function getOrRefreshToken(client) {
         console.log("Nenhum token encontrado no banco. Buscando novo...");
     }
 
-    // 2. Solicitar Token
+   
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -52,7 +52,7 @@ async function getOrRefreshToken(client) {
     const result = await response.json();
     console.log("Token recebido com sucesso.");
 
-    // 3. Salvar no Banco 
+ 
     const checkRes = await client.query('SELECT id FROM public.pub_token_raster LIMIT 1');
 
     if (checkRes.rowCount > 0) {
@@ -94,7 +94,7 @@ async function getOrRefreshToken(client) {
     return result.access_token;
 }
 
-// Se rodar diretamente: node Token.js
+
 if (require.main === module) {
     const client = getDbClient();
     (async () => {

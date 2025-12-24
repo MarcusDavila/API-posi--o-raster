@@ -88,7 +88,7 @@ async function fetchAndStorePositions(client, accessToken) {
     console.log(`Processo finalizado. ${processedCount} registros processados.`);
 }
 
-// Se rodar diretamente: node ConsultaPosicoes.js
+
 if (require.main === module) {
     const client = getDbClient();
     (async () => {

@@ -18,7 +18,7 @@ async function executarLimpeza(client) {
     console.log(`Limpeza concluída. Linhas removidas: ${res.rowCount}`);
 }
 
-// Se rodar diretamente: node Remove_duplicates.js
+
 if (require.main === module) {
     const client = getDbClient();
     (async () => {
