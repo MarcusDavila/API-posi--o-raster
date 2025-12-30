@@ -11,7 +11,7 @@ async function getOrRefreshToken(client) {
         const updatedAt = new Date(row.updated_at).getTime();
         const expiresInMs = row.expires_in * 1000;
         const expiresAt = updatedAt + expiresInMs;
-        // Buffer de 60 segundos
+        
         if (Date.now() < expiresAt - 60000) {
             console.log("Token existente ainda é válido. Reutilizando.");
             return row.access_token;

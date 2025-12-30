@@ -49,17 +49,24 @@ The project uses two main tables:
 2. `public.public_veiculo_posicao_raster`: Stores the historical vehicle positions.
 
 ## 🏃 How to Use
-
-To run the main flow (Token -> Query -> Storage):
-
-```bash
-node main.js
-```
-
-## 📂 Project Structure
-
-- `main.js`: Entry point that coordinates the execution of all modules.
-- `Token.js`: Manes the logic for obtaining and renewing the OAuth2 token.
+ 
+ ### Option 1: Standard Execution (Command Line)
+ To run and see the output in the console:
+ ```bash
+ node main.js
+ ```
+ 
+ ### Option 2: Silent Execution (Background)
+ To run without an open window (ideal for tasks or double-clicking):
+ 1. Double-click on `run_silent.vbs`.
+ 2. Check the logs in the `app.log` file generated in the same folder.
+ 
+ ## 📂 Project Structure
+ 
+ - `main.js`: Entry point that coordinates the execution of all modules.
+ - `run_silent.vbs`: Script to run the application in the background (hidden window).
+ - `app.log`: Log file where outputs are saved when running silently.
+ - `Token.js`: Manages the logic for obtaining and renewing the OAuth2 token.
 - `ConsultaPosicoes.js`: Makes the call to the positions API and processes the response.
 - `db.js`: PostgreSQL connection configuration.
 - `Remove_duplicates.js`: Logic for cleaning and maintaining duplicate data.
