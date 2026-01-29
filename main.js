@@ -3,7 +3,6 @@ const { getDbClient } = require('./db');
 const fs = require('fs');
 const util = require('util');
 
-
 const logFile = fs.createWriteStream(__dirname + '/app.log', { flags: 'a' });
 const logStdout = process.stdout;
 

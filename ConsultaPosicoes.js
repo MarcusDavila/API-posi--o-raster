@@ -47,11 +47,20 @@ async function fetchAndStorePositions(client, accessToken) {
             continue;
         }
 
+        // Remove hífen da placa e verifica se existe na tabela de veículos
+        const placaNormalizada = pos.Placa ? pos.Placa.replace('-', '') : '';
+        
+        const veiculoCheck = await client.query('SELECT 1 FROM veiculo WHERE placa = $1', [placaNormalizada]);
+        if (veiculoCheck.rowCount === 0) {
+            console.log(`Placa ${pos.Placa} (Normalizada: ${placaNormalizada}) não encontrada na tabela 'veiculo'. Ignorando.`);
+            continue;
+        }
+
         const checkQuery = `SELECT id, latitude, longitude, ignicao FROM public.public_veiculo_posicao_raster WHERE placa = $1 AND dt_posicao = $2 LIMIT 1;`;
-        const checkRes = await client.query(checkQuery, [pos.Placa, pos.DataHoraPos]);
+        const checkRes = await client.query(checkQuery, [placaNormalizada, pos.DataHoraPos]);
 
         if (checkRes.rowCount > 0) {
-            const existing = checkRes.rows[0];
+        const existing = checkRes.rows[0];
 
             if (existing.latitude != pos.Latitude || existing.longitude != pos.Longitude || existing.ignicao != pos.Ignicao) {
                 const updateQuery = `
@@ -77,7 +86,7 @@ async function fetchAndStorePositions(client, accessToken) {
                 ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14);
             `;
             await client.query(insertQuery, [
-                pos.CodPosicao, pos.Placa, pos.CodTerminal, pos.TipoRastreador, pos.DataHoraPos,
+                pos.CodPosicao, placaNormalizada, pos.CodTerminal, pos.TipoRastreador, pos.DataHoraPos,
                 pos.DistUltPosicao, pos.Ignicao, pos.Latitude, pos.Longitude, pos.PosReferencia,
                 pos.Cidade, pos.UF, pos.Pais, pos.Motorista
             ]);
